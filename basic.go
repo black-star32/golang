@@ -2,6 +2,16 @@ package main
 
 import "fmt"
 
+//作用域-包内部
+//var aa = 3
+//var ss = "kkk"
+//var bb = true
+var (
+	aa = 3
+	ss = "kkk"
+	bb = true
+)
+
 func variableZeroValue(){
 	var a int
 	var s string
@@ -30,4 +40,5 @@ func main() {
 	variableInitialValue()
 	variableTypeDeduction()
 	variableShorter()
+	fmt.Println(aa, ss, bb)
 }
