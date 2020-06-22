@@ -51,6 +51,40 @@ func triangle(){
 	fmt.Println(c)
 }
 
+func consts(){
+	const (
+		filename = "abc.txt"
+		a, b = 3, 4
+	)
+	var c = int(math.Sqrt(a*a + b*b))
+	fmt.Println(filename, c)
+}
+
+func enums()  {
+	//const(
+	//	cpp = 0
+	//	python = 1
+	//	golang = 2
+	//)
+	const(
+		cpp = iota
+		_
+		python
+		golang
+	)
+	const (
+		b = 1 << (10*iota)
+		kb
+		mb
+		gb
+		tb
+		pb
+	)
+
+	fmt.Println(cpp, python, golang)
+	fmt.Println(b, kb, mb, gb, tb, pb)
+}
+
 func main() {
 	fmt.Println("Hello world")
 	variableZeroValue()
@@ -60,4 +94,6 @@ func main() {
 	fmt.Println(aa, ss, bb)
 	euler()
 	triangle()
+	consts()
+	enums()
 }
