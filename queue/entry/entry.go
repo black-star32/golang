@@ -15,4 +15,7 @@ func main() {
 	fmt.Println(q.IsEmpyt())
 	fmt.Println(q.Pop())
 	fmt.Println(q.IsEmpyt())
+
+	q.Push("abc")
+	fmt.Println(q.Pop())
 }
