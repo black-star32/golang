@@ -13,9 +13,24 @@ func errWrapper(
 	handler appHandler)func(
 		http.ResponseWriter, *http.Request){
 		return func(writer http.ResponseWriter, request *http.Request) {
+			defer func() {
+				if r := recover(); r != nil{
+					log.Printf("Panic: %v", r)
+					http.Error(writer, http.StatusText(http.StatusInternalServerError),
+						http.StatusInternalServerError)
+				}
+			}()
 			err := handler(writer, request)
 			if err != nil{
-				log.Println("Error handling request: %s", err.Error())
+				log.Printf("Error handling request: %s", err.Error())
+				temp := err.(userError)
+				println(temp)
+				if userErr, ok := err.(userError); ok {
+					http.Error(writer,
+						userErr.Message(),
+						http.StatusBadRequest)
+					return
+				}
 				code := http.StatusOK
 				switch  {
 				case os.IsNotExist(err):
@@ -33,9 +48,14 @@ func errWrapper(
 		}
 }
 
+type userError interface {
+	error
+	Message() string
+}
+
 func main() {
 	//http://localhost:8888/list/fib.txt
-	http.HandleFunc("/list/", errWrapper(filelisting.HandleFileList))
+	http.HandleFunc("/", errWrapper(filelisting.HandleFileList))
 	err := http.ListenAndServe(":8888", nil)
 	if err != nil{
 		panic(err)
