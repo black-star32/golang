@@ -1,8 +1,11 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"io"
 	"io/ioutil"
+	"strings"
 )
 
 func grade(score int) string{
@@ -22,9 +25,17 @@ func grade(score int) string{
 	return g
 }
 
+func printFileContents(reader io.Reader){
+	scanner := bufio.NewScanner(reader)
+
+	for scanner.Scan(){
+		fmt.Println(scanner.Text())
+	}
+}
+
 
 func main() {
-	const filename = "abc.txt"
+	const filename = "basic/branch/abc.txt"
 	contents, err := ioutil.ReadFile(filename)
 	if err != nil {
 		fmt.Println(err)
@@ -38,6 +49,11 @@ func main() {
 		grade(60),
 		grade(75),
 		grade(83),
-		grade(101),
+		//grade(101),
 		)
+	s := `sefasf
+sdfsdf
+"dasf"`
+
+	printFileContents(strings.NewReader(s))
 }
