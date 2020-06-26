@@ -37,7 +37,51 @@ func writeFile(filename string){
 	}
 }
 
+func writeFile2(filename string){
+	file, err := os.OpenFile(filename, os.O_EXCL|os.O_CREATE, 0666)
+	if err != nil{
+		//panic(err)
+		fmt.Println("Error:", err)
+		return
+	}
+	defer file.Close()
+
+	writer := bufio.NewWriter(file)
+	defer writer.Flush()
+
+	f := fib.Fibonacci()
+	for i := 0; i < 20; i++ {
+		fmt.Fprintln(writer, f())
+	}
+}
+
+func writeFile3(filename string){
+	file, err := os.OpenFile(filename, os.O_EXCL|os.O_CREATE, 0666)
+	if err != nil{
+		if pathError, ok := err.(*os.PathError); !ok{
+			panic(err)
+		}else {
+			fmt.Printf("%s, %s, %s\n",
+				pathError.Op,
+				pathError.Path,
+				pathError.Err)
+		}
+		return
+	}
+	defer file.Close()
+
+	writer := bufio.NewWriter(file)
+	defer writer.Flush()
+
+	f := fib.Fibonacci()
+	for i := 0; i < 20; i++ {
+		fmt.Fprintln(writer, f())
+	}
+}
+
 func main() {
-	tryDefer()
+	//tryDefer()
 	//writeFile("fib.txt")
+	//writeFile2("fib.txt")
+	writeFile3("fib.txt")
 }
