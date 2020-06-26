@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"golang/functional/fib"
 	"io"
 	"strings"
 )
@@ -38,7 +39,7 @@ func printFileContents(reader io.Reader){
 }
 
 func main() {
-	f := fibonacci()
+	//f := fibonacci()
 
 	//fmt.Println(f()) // 1
 	//fmt.Println(f()) // 1
@@ -51,5 +52,8 @@ func main() {
 	//fmt.Println(f())
 	//fmt.Println(f())
 
+	//printFileContents(f)
+
+	var f intGen = fib.Fibonacci()
 	printFileContents(f)
 }
