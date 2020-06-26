@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	//"golang.org/x/tools/container/intsets"
 	"golang/tree"
 )
 
@@ -19,6 +20,17 @@ func (myNode *myTreeNode) postOrder(){
 	right.postOrder()
 	myNode.node.Print()
 }
+
+//func testSparse(){
+//	s := intsets.Sparse{}
+//
+//	s.Intesrt(1)
+//	s.Intesrt(1000)
+//	s.Intesrt(1000000)
+//	fmt.Println(s.Has(1000))
+//	fmt.Println(s.Has(100000))
+//
+//}
 
 func main() {
 	var root tree.Node
@@ -60,5 +72,7 @@ func main() {
 	myRoot := myTreeNode{&root}
 	myRoot.postOrder()
 	fmt.Println()
+
+	//testSparse()
 }
 
