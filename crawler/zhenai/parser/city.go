@@ -11,8 +11,8 @@ func ParseCity(contents []byte) engine.ParseResult{
 	re := regexp.MustCompile(cityRe)
 
 	result := engine.ParseResult{}
-	mathces := re.FindAllSubmatch(contents, -1)
-	for _, m := range mathces{
+	matches := re.FindAllSubmatch(contents, -1)
+	for _, m := range matches{
 		result.Items = append(
 			result.Items, "User " + string(m[2]))
 		result.Requests = append(result.Requests, engine.Request{
