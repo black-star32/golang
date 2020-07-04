@@ -2,6 +2,7 @@ package main
 
 import (
 	"golang/crawler/engine"
+	"golang/crawler/persist"
 	"golang/crawler/scheduler"
 	"golang/crawler/zhenai/parser"
 )
@@ -10,6 +11,7 @@ func main() {
 	e := engine.ConcurrentEngine{
 		Scheduler: &scheduler.QueuedScheduler{},
 		WrokerCount: 10,
+		ItemChan: persist.ItemSaver(),
 	}
 	e.Run(engine.Request{
 		Url: "http://www.zhenai.com/zhenghun",
