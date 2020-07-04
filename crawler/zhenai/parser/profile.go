@@ -7,15 +7,16 @@ import (
 )
 
 var nameRe = regexp.MustCompile(`<th><a href="http://album.zhenai.com/u/[0-9a-z]+" [^>]*>([^<]+)</a></th>`)
-var genderRe = regexp.MustCompile(`<<td width="180"><span class="grayL">性别：[^>]*>([^<]+)</td>`)
+var genderRe = regexp.MustCompile(`<td width="180"><span class="grayL">性别：[^>]*>([^<]+)</td>`)
 var placeRe = regexp.MustCompile(`<td><span class="grayL">居住地：[^>]*>([^<]+)</td>`)
 var ageRe = regexp.MustCompile(`<tr><td width="180"><span class="grayL">年龄：[^>]*>([^<]+)</td>`)
 var eduRe = regexp.MustCompile(`<td><span class="grayL">学.*历：[^>]*>([^<]+)</td>`)
 var marrRe = regexp.MustCompile(`<td width="180"><span class="grayL">婚况：[^>]*>([^<]+)</td>`)
 var heightRe = regexp.MustCompile(`<td width="180"><span class="grayL">身.*高：[^>]*>([^<]+)</td>`)
 var incomeRe = regexp.MustCompile(`<td><span class="grayL">月.*薪：[^>]*>([^<]+)</td>`)
+var idUrlRe = regexp.MustCompile(`<th><a href="http://album.zhenai.com/u/([0-9a-z]+)" [^>]*>[^<]+</a></th>`)
 
-func ParseProfile(contents []byte) engine.ParseResult{
+func ParseProfile(contents []byte, url string) engine.ParseResult{
 	profile := model.Profile{}
 	
 
@@ -27,9 +28,17 @@ func ParseProfile(contents []byte) engine.ParseResult{
 	profile.Place = extractString(contents, placeRe)
 	profile.Marriage = extractString(contents, marrRe)
 	profile.Income = extractString(contents, incomeRe)
+	profile.Id = extractString(contents, idUrlRe)
+
 	
 	result := engine.ParseResult{
-		Items: []interface{}{profile},
+		Items: []engine.Item{
+			{
+				Url: url,
+				Type: "zhenai",
+				Payload: profile,
+			},
+		},
 	}
 
 	return result
