@@ -2,7 +2,6 @@ package worker
 
 import (
 	"golang/crawler/engine"
-	"golang/crawler/zhenai/parser"
 )
 
 type SerializedParser struct {
@@ -59,7 +58,7 @@ func DeserializeResult(r ParseResult) engine.ParseResult{
 	}
 
 	for _, req := range r.Requests{
-		result.Requests = append(result.Requests, SerializeRequest(req))
+		result.Requests = append(result.Requests, DeserializeRequest(req))
 	}
 	return result
 }
