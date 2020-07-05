@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"golang/crawler/engine"
 	"golang/crawler/scheduler"
+	"golang/crawler/zhenai/parser"
 	"golang/crawler_distributed/config"
 	"golang/crawler_distributed/persist/client"
 )
@@ -21,7 +22,7 @@ func main() {
 	}
 	e.Run(engine.Request{
 		Url: "http://www.zhenai.com/zhenghun",
-		Parser: engine.NewFuncParser(ParseCityList, "ParseCityList"),
+		Parser: engine.NewFuncParser(parser.ParseCityList, "ParseCityList"),
 	})
 	//engine.SimpleEngine{}.Run(engine.Request{
 	//	 Url: "http://www.zhenai.com/zhenghun",
