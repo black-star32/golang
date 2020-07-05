@@ -16,9 +16,8 @@ var heightRe = regexp.MustCompile(`<td width="180"><span class="grayL">身.*高�
 var incomeRe = regexp.MustCompile(`<td><span class="grayL">月.*薪：[^>]*>([^<]+)</td>`)
 var idUrlRe = regexp.MustCompile(`<th><a href="http://album.zhenai.com/u/([0-9a-z]+)" [^>]*>[^<]+</a></th>`)
 
-func ParseProfile(contents []byte, url string) engine.ParseResult{
+func parseProfile(contents []byte, url string) engine.ParseResult{
 	profile := model.Profile{}
-	
 
 	profile.Age = extractString(contents, ageRe)
 	profile.Height = extractString(contents, heightRe)
@@ -53,3 +52,23 @@ func extractString(contents []byte, re *regexp.Regexp) string{
 		return ""
 	}
 }
+
+type ProfileParser struct {}
+
+func (p *ProfileParser) Parse(contents []byte, url string) engine.ParseResult {
+	return parseProfile(contents, url)
+}
+
+func (p *ProfileParser) Serialize() (name string, args interface{}) {
+	return "ProfileParser", nil
+}
+
+func NewProfileParser() *ProfileParser{
+	return &ProfileParser{}
+}
+
+//func ProfileParser() engine.ParserFunc{
+//	return func(c []byte, url string) engine.ParseResult {
+//		return ParseProfile(c, url)
+//	}
+//}

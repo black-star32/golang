@@ -1,15 +1,16 @@
 package main
 
 import (
+	"fmt"
 	"golang/crawler/engine"
-	"golang/crawler/persist"
 	"golang/crawler/scheduler"
-	"golang/crawler/zhenai/parser"
+	"golang/crawler_distributed/config"
+	"golang/crawler_distributed/persist/client"
 )
 
 func main() {
-	itemChan, err := persist.ItemSaver(
-		"dating_profile")
+	itemChan, err := client.ItemSaver(
+		fmt.Sprint(":%d", config.ItemSaverPort))
 	if err != nil{
 		panic(err)
 	}
@@ -20,7 +21,7 @@ func main() {
 	}
 	e.Run(engine.Request{
 		Url: "http://www.zhenai.com/zhenghun",
-		Parser: engine.NewFuncParser(parser.ParseCityList, "ParseCityList"),
+		Parser: engine.NewFuncParser(ParseCityList, "ParseCityList"),
 	})
 	//engine.SimpleEngine{}.Run(engine.Request{
 	//	 Url: "http://www.zhenai.com/zhenghun",
